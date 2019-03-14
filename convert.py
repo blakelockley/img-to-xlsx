@@ -13,7 +13,7 @@ def chunks(l, n):
 
 
 def color_string(rgb):
-    return "#" + "".join(map(lambda c: "%0.2X" % c, rgb))
+    return "#" + "".join(map(lambda c: "%0.2X" % c, rgb[:3]))
 
 
 if len(sys.argv) < 2:
@@ -26,8 +26,8 @@ im = Image.open(image_path)
 width, height = im.size
 px = im.load()
 
-n_colors = max(set(im.getdata())) + 1
-colors   = list(islice(chunks(im.getpalette(), 3), n_colors))
+# n_colors = max(set(im.getdata())) + 1
+# colors   = list(islice(chunks(im.getpalette(), 3), n_colors))
 
 out_path = os.path.join('outputs', 'demo.xlsx')
 
@@ -39,7 +39,7 @@ worksheet.set_column(0, width, 1.5)
 for x in range(width):
     for y in range(height):
         p = px[x, y]
-        color = color_string(colors[p])
+        color = color_string(p)
 
         cell_format = workbook.add_format()
         cell_format.set_bg_color(color)
